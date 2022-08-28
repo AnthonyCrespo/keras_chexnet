@@ -53,7 +53,10 @@ def main():
     if use_best_weights:
         print("** use best weights **")
         #model_weights_path = best_weights_path
+        ################# Change Path here ###########################################
         model_weights_path = './experiments/best_weights.h5'
+        
+        
     else:
         print("** use last weights **")
         model_weights_path = weights_path
@@ -62,7 +65,8 @@ def main():
         class_names,
         model_name=base_model_name,
         use_base_weights=False,
-        weights_path=model_weights_path)
+        weights_path=model_weights_path,
+        n_classes=2)
 
     print("** load test generator **")
     test_sequence = AugmentedImageSequence(

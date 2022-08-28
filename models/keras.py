@@ -60,7 +60,7 @@ class ModelFactory:
         return self.models_[model_name]["input_shape"][:2]
 
     def get_model(self, class_names, model_name="DenseNet121", use_base_weights=True,
-                  weights_path=None, input_shape=None):
+                  weights_path=None, input_shape=None,n_classes = 14):
 
         if use_base_weights is True:
             base_weights = "imagenet"
