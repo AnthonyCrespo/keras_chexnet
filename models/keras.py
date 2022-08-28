@@ -85,7 +85,7 @@ class ModelFactory:
             weights=base_weights,
             pooling="avg")
         x = base_model.output
-        predictions = Dense(14, activation="sigmoid", name="predictions")(x)
+        predictions = Dense(n_classes, activation="sigmoid", name="predictions")(x)
         model = Model(inputs=img_input, outputs=predictions)
 
         if weights_path == "":
