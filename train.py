@@ -12,6 +12,8 @@ from models.keras import ModelFactory
 from utility import get_sample_counts
 from weights import get_class_weights
 from augmenter import augmenter
+from keras.layers import Input, Dense
+from keras.models import Model
 
 
 def main():
@@ -133,7 +135,22 @@ def main():
             use_base_weights=use_base_model_weights,
             weights_path=model_weights_file,
             input_shape=(image_dimension, image_dimension, 3))
+        
+        
+        ##############################
+        x = model.output
+        predictions = Dense(
+        1,
+        activation='sigmoid')(x)
 
+        model = Model(
+        inputs=model.input,
+        outputs=predictions,
+        )
+
+        for layer in model.layers:
+            layer.trainable = False
+        
         if show_model_summary:
             print(model.summary())
 
@@ -199,8 +216,8 @@ def main():
         ]
 
         print("** start training **")
-        history = model_train.fit_generator(
-            generator=train_sequence,
+        history = model_train.fit(
+            train_sequence,
             steps_per_epoch=train_steps,
             epochs=epochs,
             validation_data=validation_sequence,
