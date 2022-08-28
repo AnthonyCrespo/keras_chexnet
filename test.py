@@ -5,7 +5,8 @@ from generator import AugmentedImageSequence
 from models.keras import ModelFactory
 from sklearn.metrics import roc_auc_score
 from utility import get_sample_counts
-
+from tensorflow.keras.optimizers import Adam
+from keras import backend as K
 
 def main():
     # parser config
@@ -51,7 +52,8 @@ def main():
     print("** load model **")
     if use_best_weights:
         print("** use best weights **")
-        model_weights_path = best_weights_path
+        #model_weights_path = best_weights_path
+        model_weights_path = './experiments/best_weights.h5'
     else:
         print("** use last weights **")
         model_weights_path = weights_path
@@ -93,6 +95,26 @@ def main():
         f.write("-------------------------\n")
         f.write(f"mean auroc: {mean_auroc}\n")
         print(f"mean auroc: {mean_auroc}")
+
+    optimizer = Adam(learning_rate=0.0001)
+    model.compile(optimizer=optimizer, loss="binary_crossentropy", metrics=['accuracy'])
+    score = model.evaluate(test_sequence, verbose=1)
+    print('Test loss:', score[0])
+    print('Test accuracy:', score[1])
+
+
+    def recall(y_true, y_pred): 
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+        return float(true_positives / (possible_positives + K.epsilon()))
+
+    def specificity(y_true, y_pred):
+        true_negatives = K.sum(K.round(K.clip((1 - y_true) * (1 - y_pred), 0, 1)))
+        possible_negatives = K.sum(K.round(K.clip(1 - y_true, 0, 1)))
+        return float(true_negatives / (possible_negatives + K.epsilon()))
+
+    print(f"Sensitivity: ",recall(y.astype('float32'),y_hat.astype('float32')))
+    print(f"Specificity: ",specificity(y.astype('float32'),y_hat.astype('float32')))
 
 
 if __name__ == "__main__":
