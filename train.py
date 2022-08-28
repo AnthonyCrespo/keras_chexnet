@@ -7,7 +7,7 @@ from configparser import ConfigParser
 from generator import AugmentedImageSequence
 from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau
 from tensorflow.keras.optimizers import Adam
-#from keras.utils import multi_gpu_model
+
 from models.keras import ModelFactory
 from utility import get_sample_counts
 from weights import get_class_weights
@@ -116,6 +116,8 @@ def main():
             train_pos_counts,
             multiply=positive_weights_multiply,
         )
+
+        class_weights = class_weights[0]
         print("** class_weights **")
         print(class_weights)
 
@@ -138,9 +140,10 @@ def main():
         
         
         ##############################
-        x = model.output
+        x = model.layers[-2].output 
+        
         predictions = Dense(
-        1,
+        2,
         activation='sigmoid')(x)
 
         model = Model(
@@ -148,7 +151,7 @@ def main():
         outputs=predictions,
         )
 
-        for layer in model.layers:
+        for layer in model.layers[:-1]:
             layer.trainable = False
         
         if show_model_summary:
@@ -180,21 +183,13 @@ def main():
 
         print("** check multiple gpu availability **")
         gpus = len(os.getenv("CUDA_VISIBLE_DEVICES", "1").split(","))
-        # if gpus > 1:
-        #     print(f"** multi_gpu_model is used! gpus={gpus} **")
-        #     model_train = multi_gpu_model(model, gpus)
-        #     # FIXME: currently (Keras 2.1.2) checkpoint doesn't work with multi_gpu_model
-        #     checkpoint = MultiGPUModelCheckpoint(
-        #         filepath=output_weights_path,
-        #         base_model=model,
-        #     )
-        # else:
+
         model_train = model
         checkpoint = ModelCheckpoint(
-                output_weights_path,
-                save_weights_only=True,
-                save_best_only=True,
-                verbose=1,
+              output_weights_path,
+              save_weights_only=True,
+              save_best_only=True,
+              verbose=1,
         )
 
         print("** compile model with class weights **")
