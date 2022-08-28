@@ -193,8 +193,10 @@ def main():
         )
 
         print("** compile model with class weights **")
-        optimizer = Adam(lr=initial_learning_rate)
-        model_train.compile(optimizer=optimizer, loss="binary_crossentropy")
+        optimizer = Adam(learning_rate=initial_learning_rate)
+        #model_train.compile(optimizer=optimizer, loss="binary_crossentropy")
+        model_train.compile(optimizer=optimizer, loss="binary_crossentropy", metrics=['accuracy'])
+        
         auroc = MultipleClassAUROC(
             sequence=validation_sequence,
             class_names=class_names,

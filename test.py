@@ -75,7 +75,7 @@ def main():
     )
 
     print("** make prediction **")
-    y_hat = model.predict_generator(test_sequence, verbose=1)
+    y_hat = model.predict(test_sequence, verbose=1)
     y = test_sequence.get_y_true()
 
     test_log_path = os.path.join(output_dir, "test.log")
