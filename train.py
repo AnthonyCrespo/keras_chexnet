@@ -124,7 +124,8 @@ def main():
         print("** load model **")
         if use_trained_model_weights:
             if use_best_weights:
-                model_weights_file = os.path.join(output_dir, f"best_{output_weights_name}")
+                #model_weights_file = os.path.join(output_dir, f"best_{output_weights_name}")
+                model_weights_file = os.path.join(output_dir, f"chexnet_weights.h5")
             else:
                 model_weights_file = os.path.join(output_dir, output_weights_name)
         else:
@@ -140,7 +141,8 @@ def main():
             
         
         
-        ##############################
+        ############################################################
+        ############################################################
         x = model.layers[-2].output 
         
         predictions = Dense(
