@@ -27,7 +27,7 @@ class AugmentedImageSequence(Sequence):
         """
         self.dataset_df = pd.read_csv(dataset_csv_file)
         self.source_image_dir = source_image_dir
-        self.batch_size = batch_sizeb
+        self.batch_size = batch_size
         self.target_size = target_size
         self.augmenter = augmenter
         self.verbose = verbose
