@@ -61,6 +61,7 @@ class AugmentedImageSequence(Sequence):
         image_array = resize(image_array, self.target_size)
         return image_array
 
+    # Normalize images with mean and stddev of ImageNet        
     def transform_batch_images(self, batch_x):
         if self.augmenter is not None:
             batch_x = self.augmenter.augment_images(batch_x)
