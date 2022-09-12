@@ -1,6 +1,6 @@
 # ChexNet-Keras
 This project is a CheXNet-based model in Keras specialized in Tuberculosis detection. 
-It is based on Bruce Chou [Keras implementation] (https://github.com/brucechou1983/CheXNet-Keras) of CheXNet. 
+It is based on Bruce Chou [Keras implementation](https://github.com/brucechou1983/CheXNet-Keras) of CheXNet. 
 
 <!-- <img width="1350" height="450" src="cam_example.png" alt="CAM example image"/> -->
 
@@ -23,7 +23,7 @@ ChexNet is a deep learning algorithm that can detect and localize 14 kinds of di
 
 ## Quickstart
 The code has been updated to Tensorflow 2.8 and Keras 2.8, and the trainings were carried out in Google Colab Pro.
-1. Download the [dataset] (https://www.kaggle.com/datasets/tawsifurrahman/tuberculosis-tb-chest-xray-dataset). Put all the images under `./data` folder.
+1. Download the [dataset](https://www.kaggle.com/datasets/tawsifurrahman/tuberculosis-tb-chest-xray-dataset). Put all the images under `./data` folder.
 2. Perform a split of the dataset and save the .csv files in the `./data/split/` folder as train, dev, and test. A 80, 10, 10 split of the data is already provided.
 3. Run `python train.py` to train a new model
 4. Run `python test.py` to evaluate the model on the test set.
